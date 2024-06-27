@@ -10,7 +10,7 @@ export default function NewEventsSection() {
     queryKey: ["events", { max: 3 }],
     queryFn: ({ signal, queryKey }) => fetchEvents({ signal, ...queryKey[1] }),
     staleTime: 5000,
-    // gcTime: 1000,
+    // gcTime: 1000
   });
 
   let content;
@@ -23,7 +23,7 @@ export default function NewEventsSection() {
     content = (
       <ErrorBlock
         title="An error occurred"
-        message={error.info?.message || "Failed to fetch events"}
+        message={error.info?.message || "Failed to fetch events."}
       />
     );
   }

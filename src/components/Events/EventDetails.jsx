@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import Header from "../Header.jsx";
-import { deleteEvent, fetchEvent, queryClient } from "../../util/http.js";
+import { fetchEvent, deleteEvent, queryClient } from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 import Modal from "../UI/Modal.jsx";
 
@@ -63,7 +63,7 @@ export default function EventDetails() {
           title="Failed to load event"
           message={
             error.info?.message ||
-            "Failed to fetch event data, please try again later"
+            "Failed to fetch event data, please try again later."
           }
         />
       </div>
@@ -71,7 +71,7 @@ export default function EventDetails() {
   }
 
   if (data) {
-    const formattedDate = new Data(data.date).toLocaleDateString("en-US", {
+    const formattedDate = new Date(data.date).toLocaleDateString("en-US", {
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -82,7 +82,7 @@ export default function EventDetails() {
         <header>
           <h1>{data.title}</h1>
           <nav>
-            <button onClcik={handleStartDelete}>Delete</button>
+            <button onClick={handleStartDelete}>Delete</button>
             <Link to="edit">Edit</Link>
           </nav>
         </header>
@@ -92,7 +92,7 @@ export default function EventDetails() {
             <div>
               <p id="event-details-location">{data.location}</p>
               <time dateTime={`Todo-DateT$Todo-Time`}>
-                {data.date} @ {data.time}
+                {formattedDate} @ {data.time}
               </time>
             </div>
             <p id="event-details-description">{data.description}</p>
@@ -105,7 +105,7 @@ export default function EventDetails() {
   return (
     <>
       {isDeleting && (
-        <Modal>
+        <Modal onClose={handleStopDelete}>
           <h2>Are you sure?</h2>
           <p>
             Do you really want to delete this event? This action cannot be
@@ -115,8 +115,12 @@ export default function EventDetails() {
             {isPendingDeletion && <p>Deleting, please wait...</p>}
             {!isPendingDeletion && (
               <>
-                <button onClick={handleStopDelete}>Cancel</button>
-                <button onClick={handleDelete}>Delete</button>
+                <button onClick={handleStopDelete} className="button-text">
+                  Cancel
+                </button>
+                <button onClick={handleDelete} className="button">
+                  Delete
+                </button>
               </>
             )}
           </div>

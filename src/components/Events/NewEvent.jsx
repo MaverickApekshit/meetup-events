@@ -42,7 +42,7 @@ export default function NewEvent() {
           title="Failed to create event"
           message={
             error.info?.message ||
-            "Failed to create event. Please check your inputs and try again later"
+            "Failed to create event. Please check your inputs and try again later."
           }
         />
       )}
